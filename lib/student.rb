@@ -75,7 +75,10 @@ new_student
   end
 
   def self.first_student_in_grade_10
-    sql = "SELECT * FROM students WHERE grade =10"
+    sql = "SELECT *
+      FROM students
+      WHERE grade = 10
+      ORDER BY students.id LIMIT 1"
     DB[:conn].execute(sql).map do |row|
       self.new_from_db(row)
     end
@@ -83,8 +86,8 @@ new_student
 
   def self.all_students_in_grade_X(grade)
     sql = "SELECT * FROM students WHERE grade = ?"
-    DB[:conn].execute(sql, grade)
-      self.new_from_db
+    DB[:conn].execute(sql, grade).map do |row|
+      self.new_from_db(row)
     end
   end
 
